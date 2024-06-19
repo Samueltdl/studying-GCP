@@ -41,10 +41,54 @@ def get_lati_longi(api_key, address):
         print("Failed to make the request.")
 
         return 0, 0
+    
+    
+def get_dist_dur(api_key, start, end):
+
+    base_url = "https://maps.googleapis.com/maps/api/distancematrix/json"
+
+    params = {
+
+        "origins": start,
+
+        "destinations": end,
+
+        "key": api_key
+
+    }
+
+    response = requests.get(base_url, params=params)
+
+    if response.status_code == 200:
+
+        data = response.json()
+
+        if data["status"] == "OK":
+
+            distance = data["rows"][0]["elements"][0]["distance"]["text"]
+
+            duration = data["rows"][0]["elements"][0]["duration"]["text"]
+
+            return distance, duration
+
+        else:
+
+            print("Request failed.")
+
+            return None, None
+
+    else:
+
+        print("Failed to make the request.")
+
+        return None, None
+
 
 # pegando a key de API da .env
 load_dotenv()
 api_key = os.getenv("API_KEY")
+
+################################### PRIMEIRO TESTE ###############################
 
 # Lista de endereços a serem pesquisados
 address_list = [
@@ -61,6 +105,7 @@ address_list = [
 ]
 
 # Pesquisando cada um dos endereços da lista e printando no terminal
+print(f'\n------------ Endereços pesquisados -------------')
 cont = 1
 for address in address_list:
 
@@ -68,3 +113,19 @@ for address in address_list:
 
     print(f"Endereço {cont} => Latitude: {lati}, Longitude: {longi}")
     cont += 1
+
+######################################### SEGUNDO TESTE ##################################
+print(f'\n------------ Distância entre endereços -------------')
+
+start = "Palace Lucerna, Nové Město"
+
+end = "Project FOX, Praha 3-Žižkov"
+
+
+distance, duration = get_dist_dur(api_key, start, end)
+
+if distance and duration:
+
+    print(f"Driving Distance: {distance}")
+
+    print(f"Driving Duration: {duration}")
