@@ -2,8 +2,6 @@ import requests
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
-
 def get_lati_longi(api_key, address):
 
     url = 'https://maps.googleapis.com/maps/api/geocode/json'
@@ -44,8 +42,11 @@ def get_lati_longi(api_key, address):
 
         return 0, 0
 
+# pegando a key de API da .env
+load_dotenv()
 api_key = os.getenv("API_KEY")
 
+# Lista de endereços a serem pesquisados
 address_list = [
     'Rua Bento Gonçalves, 152, Centro, Rio Grande - RS, Brazil',
     'Avenida Buarque de Macedo, 240, Cidade Nova, Rio Grande - RS, Brazil',
@@ -59,12 +60,11 @@ address_list = [
     'Rua Marechal Floriano, 678, Vila São João, Rio Grande - RS, Brazil'
 ]
 
+# Pesquisando cada um dos endereços da lista e printando no terminal
 cont = 1
-for address in address_list :
+for address in address_list:
 
     lati, longi = get_lati_longi(api_key, address)
 
     print(f"Endereço {cont} => Latitude: {lati}, Longitude: {longi}")
     cont += 1
-
-
