@@ -46,10 +46,25 @@ def get_lati_longi(api_key, address):
 
 api_key = os.getenv("API_KEY")
 
-address = 'Vodickova 704/36, 11000 Prague 1, Czech Republic'
+address_list = [
+    'Rua Bento Gonçalves, 152, Centro, Rio Grande - RS, Brazil',
+    'Avenida Buarque de Macedo, 240, Cidade Nova, Rio Grande - RS, Brazil',
+    'Rua Domingos de Almeida, 389, Parque Marinha, Rio Grande - RS, Brazil',
+    'Rua General Osório, 523, Cassino, Rio Grande - RS, Brazil',
+    'Avenida Itália, 712, Vila Junção, Rio Grande - RS, Brazil',
+    'Rua 24 de Maio, 91, Santa Rosa, Rio Grande - RS, Brazil',
+    'Rua Riachuelo, 325, Getúlio Vargas, Rio Grande - RS, Brazil',
+    'Avenida Presidente Vargas, 456, Vila São Miguel, Rio Grande - RS, Brazil',
+    'Rua Silva Paes, 237, Junção, Rio Grande - RS, Brazil',
+    'Rua Marechal Floriano, 678, Vila São João, Rio Grande - RS, Brazil'
+]
 
-lati, longi = get_lati_longi(api_key, address)
+cont = 1
+for address in address_list :
 
-print(f"Latitude: {lati}")
+    lati, longi = get_lati_longi(api_key, address)
 
-print(f"Longitude: {longi}")
+    print(f"Endereço {cont} => Latitude: {lati}, Longitude: {longi}")
+    cont += 1
+
+
