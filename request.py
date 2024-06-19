@@ -88,7 +88,8 @@ def get_dist_dur(api_key, start, end):
 load_dotenv()
 api_key = os.getenv("API_KEY")
 
-################################### PRIMEIRO TESTE ###############################
+
+################################### PRIMEIRO TESTE: OBTENDO COORDENADAS DOS ENDEREÇOS ###############################
 
 # Lista de endereços a serem pesquisados
 address_list = [
@@ -97,15 +98,17 @@ address_list = [
     'Rua Domingos de Almeida, 389, Parque Marinha, Rio Grande - RS, Brazil',
     'Rua General Osório, 523, Cassino, Rio Grande - RS, Brazil',
     'Avenida Itália, 712, Vila Junção, Rio Grande - RS, Brazil',
-    'Rua 24 de Maio, 91, Santa Rosa, Rio Grande - RS, Brazil',
-    'Rua Riachuelo, 325, Getúlio Vargas, Rio Grande - RS, Brazil',
-    'Avenida Presidente Vargas, 456, Vila São Miguel, Rio Grande - RS, Brazil',
-    'Rua Silva Paes, 237, Junção, Rio Grande - RS, Brazil',
-    'Rua Marechal Floriano, 678, Vila São João, Rio Grande - RS, Brazil'
 ]
+
+# 'Rua 24 de Maio, 91, Santa Rosa, Rio Grande - RS, Brazil',
+# 'Rua Riachuelo, 325, Getúlio Vargas, Rio Grande - RS, Brazil',
+# 'Avenida Presidente Vargas, 456, Vila São Miguel, Rio Grande - RS, Brazil',
+# 'Rua Silva Paes, 237, Junção, Rio Grande - RS, Brazil',
+# 'Rua Marechal Floriano, 678, Vila São João, Rio Grande - RS, Brazil'
 
 # Pesquisando cada um dos endereços da lista e printando no terminal
 print(f'\n------------ Endereços pesquisados -------------')
+
 cont = 1
 for address in address_list:
 
@@ -114,18 +117,24 @@ for address in address_list:
     print(f"Endereço {cont} => Latitude: {lati}, Longitude: {longi}")
     cont += 1
 
-######################################### SEGUNDO TESTE ##################################
-print(f'\n------------ Distância entre endereços -------------')
 
-start = "Palace Lucerna, Nové Město"
+######################################### SEGUNDO TESTE: OBTENDO MATRIZ DE DISTÂNCIA E TEMPO ENTRE ENDEREÇOS ##################################
 
-end = "Project FOX, Praha 3-Žižkov"
+print(f'\n------------ Matriz de distância entre endereços -------------')
 
+distance_duration_matrix = []
 
-distance, duration = get_dist_dur(api_key, start, end)
+# Loop para comparar cada endereço com os subsequentes
+for i in range(len(address_list)):
+    row = []
+    for j in range(i + 1, len(address_list)):
+        address1 = address_list[i]
+        address2 = address_list[j]
+        #print(f"Incício: {address1}, Fim: {address2}")
+        distance, duration = get_dist_dur(api_key, address1, address2)
+        row.append({"distance": distance, "duration": duration})
+        #print(f'Distância: {distance}\nDuração:{duration}\n')
+    distance_duration_matrix.append(row)
 
-if distance and duration:
-
-    print(f"Driving Distance: {distance}")
-
-    print(f"Driving Duration: {duration}")
+for row in distance_duration_matrix:
+    print(row)
